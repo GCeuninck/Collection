@@ -143,12 +143,52 @@ public class Main {
 	}
 	
 	static void partie2() {
+				
+		Calendar c1 = Calendar.getInstance();
+		c1.set(2002, 5, 23); 
+		Personne paul = new Personne("ochon", "paul", c1);
 		
+		Calendar c2 = Calendar.getInstance();
+		c2.set(2010, 11, 24);  
+		Personne jean = new Personne("dupont", "jean", c2);
+		Contact jeanContact = new Mail("jean.dupont", "imt-lille-douai.fr");
+		
+		Calendar c3 = Calendar.getInstance();
+		c3.set(1967, 1, 26);  
+		Personne jacques = new Personne("dubois", "jacques", c3);
+		Contact jacquesContact = new NumTel("060504030201", NumTel.TypeTel.FIXEPROF);
+		
+		GestionnaireContacts gcpub = new GestionnaireContacts("Private");
+		Contact paulContact = new Adresse(2, "rue marconi", 59655, "Villeneuve d'Ascq");
+		
+		gcpub.ajouter(jean, jeanContact);
+		gcpub.ajouter(paul, paulContact);
+		gcpub.ajouter(jacques, jacquesContact);
+		gcpub.afficher(System.out);
+		System.out.println("------");
+		
+		gcpub.modifier(paul, new Mail("paulochon", "gmail.com"));
+		gcpub.afficher(System.out);
+		System.out.println("------");
+		
+		afficherPersonnes(gcpub.personnes());
+		System.out.println("------");
+		afficherPersonnes(gcpub.personnes("o"));
+		System.out.println("------");
+		
+		gcpub.ajouter(paul, new NumTel("0607080901", NumTel.TypeTel.FIXEDOM));
+		gcpub.afficher(System.out);
+		System.out.println("------");
+		
+		gcpub.supprimer(paul);
+		gcpub.afficher(System.out);
+		System.out.println("------");
 	}
 
 	public static void main(String[] args) {
 		
-		partie1();
+		//partie1();
+		partie2();
 	}
 
 }
