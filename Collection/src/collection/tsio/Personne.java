@@ -2,7 +2,7 @@ package collection.tsio;
 
 import java.util.*;
 
-public class Personne  {
+public class Personne implements Comparable<Personne> {
 
 	protected String nom;
 	protected String prenom;
@@ -33,8 +33,12 @@ public class Personne  {
 	public String toString() {
 		return prenom + " " + nom + " : " + 
 			anniversaire.get(Calendar.DAY_OF_MONTH) + "/" + 
-			anniversaire.get(Calendar.MONTH) + "/" + 
+			(anniversaire.get(Calendar.MONTH) + 1)+ "/" + 
 			anniversaire.get(Calendar.YEAR); 
 	}
 	
+	@Override
+	public int compareTo(Personne p) {
+		return this.nom.compareTo(p.nom);
+	}
 }
