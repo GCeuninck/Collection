@@ -161,28 +161,38 @@ public class Main {
 		GestionnaireContacts gcpub = new GestionnaireContacts("Private");
 		Contact paulContact = new Adresse(2, "rue marconi", 59655, "Villeneuve d'Ascq");
 		
-		gcpub.ajouter(jean, jeanContact);
-		gcpub.ajouter(paul, paulContact);
-		gcpub.ajouter(jacques, jacquesContact);
-		gcpub.afficher(System.out);
-		System.out.println("------");
-		
-		gcpub.modifier(paul, new Mail("paulochon", "gmail.com"));
-		gcpub.afficher(System.out);
-		System.out.println("------");
-		
-		afficherPersonnes(gcpub.personnes());
-		System.out.println("------");
-		afficherPersonnes(gcpub.personnes("o"));
-		System.out.println("------");
-		
-		gcpub.ajouter(paul, new NumTel("0607080901", NumTel.TypeTel.FIXEDOM));
-		gcpub.afficher(System.out);
-		System.out.println("------");
-		
-		gcpub.supprimer(paul);
-		gcpub.afficher(System.out);
-		System.out.println("------");
+		try {
+			gcpub.ajouter(jean, jeanContact);
+			gcpub.ajouter(paul, paulContact);
+			gcpub.ajouter(jacques, jacquesContact);
+			gcpub.afficher(System.out);
+			System.out.println("------");
+			
+			gcpub.modifier(paul, new Mail("paulochon", "gmail.com"));
+			gcpub.afficher(System.out);
+			System.out.println("------");
+			
+			afficherPersonnes(gcpub.personnes());
+			System.out.println("------");
+			afficherPersonnes(gcpub.personnes("o"));
+			System.out.println("------");
+			
+			gcpub.ajouter(paul, new NumTel("0607080901", NumTel.TypeTel.FIXEDOM));
+			gcpub.afficher(System.out);
+			System.out.println("------");
+			
+			gcpub.supprimer(paul);
+			gcpub.afficher(System.out);
+			System.out.println("------");
+		} catch (PersonneExistantDeja e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getPersonne());
+			//e.printStackTrace();
+		} catch (PersonneInconnue e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getPersonne());
+			//e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

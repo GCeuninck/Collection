@@ -7,19 +7,20 @@ public class GestionnaireContacts {
 	
 	String nom;
 	HashMap<Personne, Contact> gc;
+	//HashMap<Personne, List<Contact>> gc;
 	
 	public GestionnaireContacts(String nom) {
 		this.nom = nom;
 		this.gc = new HashMap<Personne, Contact>();
 	}
 	
-	public boolean ajouter(Personne p, Contact c) {
-		boolean res = false;
+	public void ajouter(Personne p, Contact c) throws PersonneExistantDeja {
 		if (!this.gc.containsKey(p)) {
 			this.gc.put(p, c);
-			res = true;
 		}
-		return res;
+		else {
+			throw new PersonneExistantDeja(p);
+		}
 	}
 	
 	public Contact contacts(Personne p){
@@ -30,13 +31,13 @@ public class GestionnaireContacts {
 		return this.nom;
 	}
 	
-	public boolean modifier(Personne p, Contact c) {
-		boolean res = false;
+	public void modifier(Personne p, Contact c) throws PersonneInconnue {
 		if (this.gc.containsKey(p)) {
 			this.gc.put(p, c);
-			res = true;
 		}
-		return res;
+		else {
+			throw new PersonneInconnue(p);
+		}
 	}
 	
 	public Set<Personne> personnes(){
@@ -53,13 +54,11 @@ public class GestionnaireContacts {
 		return res;
 	}
 	
-	public boolean supprimer(Personne p) {
-		boolean res = false;
-		if (this.gc.containsKey(p)) {
-			this.gc.remove(p);
-			res = true;
+	public void supprimer(Personne p) throws PersonneInconnue {
+		Contact rc = this.gc.remove(p);
+		if (rc == null) {
+			throw new PersonneInconnue(p);
 		}
-		return res;
 	}
 	
 	public void afficher(PrintStream ps) {
