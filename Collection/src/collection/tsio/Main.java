@@ -60,6 +60,19 @@ public class Main {
 		System.out.println("Avec TreeSet");	
 		afficherPersonnes(personnes3);
 		System.out.println("------");
+		
+		Set<Personne> personnes4 = new TreeSet<Personne>(new ComparatorPersonneAnniversaire());
+		
+		personnes4.add(paul);
+		personnes4.add(jean);
+		personnes4.add(jacques);
+		
+		System.out.println("Avec CompareAnniv");	
+		afficherPersonnes(personnes4);
+		System.out.println("------");
+		
+		Set<Personne> jeunes = ageInferieur(personnes4, 20);
+		afficherPersonnes(jeunes);
 	}
 	
 	static void afficherPersonnes(Collection<Personne> cp) {
@@ -98,19 +111,35 @@ public class Main {
 		Collections.shuffle(cp);
 	}
 	
-	static float ageMoyen(Collection<Personne> cp) {
+	static float getAge(Personne p) {
 		Date today = new Date();
 		long denum = 31536000000L; //nb de ms dans 1 année
+		
+		Date anniv = p.getAnniversaire().getTime();
+		long delta = today.getTime() - anniv.getTime();
+		float age = delta / denum;
+		
+		return age;
+	}
+	
+	static float ageMoyen(Collection<Personne> cp) {
 		float sumAge = 0;
 		Iterator<Personne> iterator = cp.iterator();
 		while(iterator.hasNext()) {
 			Personne p = iterator.next();
-			Date anniv = p.getAnniversaire().getTime();
-			long delta = today.getTime() - anniv.getTime();
-			float age = delta / denum;
-			sumAge += age;
+			sumAge += getAge(p);
 		}
 		return sumAge / cp.size();
+	}
+	
+	static Set<Personne> ageInferieur(Collection<Personne> cp, int age){
+		Set<Personne> res = new HashSet<Personne>();
+		for(Personne p : cp) {
+			if(getAge(p) < age) {
+				res.add(p);
+			}
+		}
+		return res;
 	}
 	
 	static void partie2() {
